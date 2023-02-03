@@ -16,22 +16,22 @@ using frc::XboxController;
 class Robot: public TimedRobot {
 
  public:
-  const enum motorControllerPort {
-    frontRight = 1,
-    backRight = 3,
-    frontLeft = 0,
-    backLeft = 2,
-    hWheel = 5,
+  enum motorControllerPort {
+    frontRightPort = 1,
+    backRightPort = 3,
+    frontLeftPort = 0,
+    backLeftPort = 2,
+    hWheelPort = 5,
   };
-  const enum gameControllerPort {
+  enum gameControllerPort {
     driver = 0
   };
 
-  TalonSRX frontRight{motorControllerPort::frontRight};
-  TalonSRX backRight{motorControllerPort::backRight};
-  TalonSRX frontLeft{motorControllerPort::frontLeft};
-  TalonSRX backLeft{motorControllerPort::backLeft};
-  TalonSRX hWheel{motorControllerPort::hWheel};
+  TalonSRX frontRight{motorControllerPort::frontRightPort};
+  TalonSRX backRight{motorControllerPort::backRightPort};
+  TalonSRX frontLeft{motorControllerPort::frontLeftPort};
+  TalonSRX backLeft{motorControllerPort::backLeftPort};
+  TalonSRX hWheel{motorControllerPort::hWheelPort};
   XboxController driverController{gameControllerPort::driver};
 
   void RobotInit() override;

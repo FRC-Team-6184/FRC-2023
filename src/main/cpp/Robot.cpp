@@ -9,8 +9,8 @@ void Robot::AutonomousPeriodic() {}
 void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
-  frontRight.Set(ControlMode::Follower, Robot::motorControllerPort::backRight);
-  frontLeft.Set(ControlMode::Follower, Robot::motorControllerPort::backLeft);
+  frontRight.Set(ControlMode::Follower, Robot::motorControllerPort::backRightPort);
+  frontLeft.Set(ControlMode::Follower, Robot::motorControllerPort::backLeftPort);
   backRight.Set(
     ControlMode::PercentOutput,
     ((driverController.GetLeftY() + driverController.GetRightX()) * driverController.GetRightTriggerAxis())
@@ -26,11 +26,9 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::DisabledInit() {}
-
 void Robot::DisabledPeriodic() {}
 
 void Robot::TestInit() {}
-
 void Robot::TestPeriodic() {}
 
 void Robot::SimulationInit() {}
