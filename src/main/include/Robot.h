@@ -9,7 +9,6 @@
 using ctre::phoenix::motorcontrol::can::TalonSRX;
 using ctre::phoenix::motorcontrol::can::TalonFX;
 using ctre::phoenix::motorcontrol::ControlMode;
-using ctre::phoenix::motorcontrol::ControlMode;
 using frc::StartRobot;
 using frc::TimedRobot;
 using frc::XboxController;
@@ -18,12 +17,11 @@ class Robot: public TimedRobot {
 
  public:
   const enum motorControllerPort {
-    frontRight = 14,
-    backRight = 20,
-    frontLeft = 13,
-    backLeft = 41,
-    shooter = 12, // TODO: VERIFY CAN ADDRESSES
-    feeder = 15 // TODO: VERIFY CAN ADDRESSES
+    frontRight = 1,
+    backRight = 3,
+    frontLeft = 0,
+    backLeft = 2,
+    hWheel = 5,
   };
   const enum gameControllerPort {
     driver = 0
@@ -33,8 +31,7 @@ class Robot: public TimedRobot {
   TalonSRX backRight{motorControllerPort::backRight};
   TalonSRX frontLeft{motorControllerPort::frontLeft};
   TalonSRX backLeft{motorControllerPort::backLeft};
-  TalonFX shooter{motorControllerPort::shooter};
-  TalonFX feeder{motorControllerPort::feeder};
+  TalonSRX hWheel{motorControllerPort::hWheel};
   XboxController driverController{gameControllerPort::driver};
 
   void RobotInit() override;
