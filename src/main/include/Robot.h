@@ -6,7 +6,15 @@
 #include "frc/XboxController.h"
 #include <frc/TimedRobot.h>
 
-class Robot: public frc::TimedRobot {
+using ctre::phoenix::motorcontrol::can::TalonSRX;
+using ctre::phoenix::motorcontrol::can::TalonFX;
+using ctre::phoenix::motorcontrol::ControlMode;
+using ctre::phoenix::motorcontrol::ControlMode;
+using frc::StartRobot;
+using frc::TimedRobot;
+using frc::XboxController;
+
+class Robot: public TimedRobot {
 
  public:
   const enum motorControllerPort {
@@ -21,13 +29,13 @@ class Robot: public frc::TimedRobot {
     driver = 0
   };
 
-  ctre::phoenix::motorcontrol::can::TalonSRX frontRight{motorControllerPort::frontRight};
-  ctre::phoenix::motorcontrol::can::TalonSRX backRight{motorControllerPort::backRight};
-  ctre::phoenix::motorcontrol::can::TalonSRX frontLeft{motorControllerPort::frontLeft};
-  ctre::phoenix::motorcontrol::can::TalonSRX backLeft{motorControllerPort::backLeft};
-  ctre::phoenix::motorcontrol::can::TalonFX shooter{motorControllerPort::shooter};
-  ctre::phoenix::motorcontrol::can::TalonFX feeder{motorControllerPort::feeder};
-  frc::XboxController driverController{gameControllerPort::driver};
+  TalonSRX frontRight{motorControllerPort::frontRight};
+  TalonSRX backRight{motorControllerPort::backRight};
+  TalonSRX frontLeft{motorControllerPort::frontLeft};
+  TalonSRX backLeft{motorControllerPort::backLeft};
+  TalonFX shooter{motorControllerPort::shooter};
+  TalonFX feeder{motorControllerPort::feeder};
+  XboxController driverController{gameControllerPort::driver};
 
   void RobotInit() override;
   void RobotPeriodic() override;
