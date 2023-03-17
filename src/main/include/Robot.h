@@ -5,7 +5,6 @@
 #pragma once
 
 #include "iostream"
-#include "PlayStationController.h"
 #include "ctre/Phoenix.h"
 #include "ctre/phoenix/motorcontrol/can/VictorSPX.h"
 #include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
@@ -17,7 +16,7 @@ using ctre::phoenix::motorcontrol::can::VictorSPX;
 using ctre::phoenix::motorcontrol::can::TalonFX;
 using ctre::phoenix::motorcontrol::ControlMode;
 using frc::StartRobot;
-using frc::TimedRobot; 
+using frc::TimedRobot;
 using frc::XboxController;
 
 class Robot: public TimedRobot {
@@ -56,14 +55,14 @@ class Robot: public TimedRobot {
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
-  
+
   float layer = 0;
   float type = 0;
   // float kDriveTick2Feet = 0.000310842175066;
   // double rightPosition = backRight.GetSelectedSensorPosition() * kDriveTick2Feet;
   // double leftPosition = backLeft.GetSelectedSensorPosition() * kDriveTick2Feet;
-  // double distance = (rightPosition + leftPosition) / 2; 
-  
+  // double distance = (rightPosition + leftPosition) / 2;
+
   void RobotInit() override;
   void RobotPeriodic() override;
 
@@ -81,5 +80,5 @@ class Robot: public TimedRobot {
 
   void SimulationInit() override;
   void SimulationPeriodic() override;
-  
+
 };
