@@ -1,5 +1,11 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 #pragma once
 
+#include "iostream"
+#include "PlayStationController.h"
 #include "ctre/Phoenix.h"
 #include "ctre/phoenix/motorcontrol/can/VictorSPX.h"
 #include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
@@ -7,33 +13,57 @@
 #include <frc/TimedRobot.h>
 
 using ctre::phoenix::motorcontrol::can::TalonSRX;
+using ctre::phoenix::motorcontrol::can::VictorSPX;
 using ctre::phoenix::motorcontrol::can::TalonFX;
 using ctre::phoenix::motorcontrol::ControlMode;
 using frc::StartRobot;
-using frc::TimedRobot;
+using frc::TimedRobot; 
 using frc::XboxController;
 
 class Robot: public TimedRobot {
 
  public:
   enum motorControllerPort {
-    frontRightPort = 1,
-    backRightPort = 3,
-    frontLeftPort = 0,
-    backLeftPort = 2,
-    hWheelPort = 5,
+    frontRightPort = 2,
+    backRightPort = 0,
+    frontLeftPort = 3,
+    backLeftPort = 1,
+    turretPort = 6,
+    intakePort = 16,
+    turretArm1Port = 18,
+    turretArm2Port = 7,
+    hWheelPort = 4
   };
   enum gameControllerPort {
-    driver = 0
+    driver = 0,
+    turretCon = 1
   };
 
   TalonSRX frontRight{motorControllerPort::frontRightPort};
   TalonSRX backRight{motorControllerPort::backRightPort};
   TalonSRX frontLeft{motorControllerPort::frontLeftPort};
   TalonSRX backLeft{motorControllerPort::backLeftPort};
-  TalonSRX hWheel{motorControllerPort::hWheelPort};
+  TalonSRX turret{motorControllerPort::turretPort};
+  TalonSRX turretIntake{motorControllerPort::intakePort};
+  TalonSRX turretArm1{motorControllerPort::turretArm1Port};
+  TalonSRX turretArm2{motorControllerPort::turretArm2Port};
+  VictorSPX hWheel{motorControllerPort::hWheelPort};
   XboxController driverController{gameControllerPort::driver};
+  XboxController turretController{gameControllerPort::turretCon};
 
+  chooser = new SendableChooser();
+  frc::SendableChooser<std::string> m_chooser;
+  const std::string kAutoNameDefault = "Default";
+  const std::string kAutoNameCustom = "My Auto";
+  std::string m_autoSelected;
+  
+  float layer = 0;
+  float type = 0;
+  // float kDriveTick2Feet = 0.000310842175066;
+  // double rightPosition = backRight.GetSelectedSensorPosition() * kDriveTick2Feet;
+  // double leftPosition = backLeft.GetSelectedSensorPosition() * kDriveTick2Feet;
+  // double distance = (rightPosition + leftPosition) / 2; 
+  
   void RobotInit() override;
   void RobotPeriodic() override;
 
