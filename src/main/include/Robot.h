@@ -4,25 +4,31 @@
 
 #pragma once
 
-#include "iostream"
-#include "ctre/Phoenix.h"
-#include "ctre/phoenix/motorcontrol/can/VictorSPX.h"
-#include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
-#include "frc/XboxController.h"
+#include <iostream>
+#include <ctre/Phoenix.h>
+#include <ctre/phoenix/motorcontrol/can/VictorSPX.h>
+#include <ctre/phoenix/motorcontrol/can/TalonSRX.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/smartdashboard/SendableChooser.h>
+#include <frc/XboxController.h>
 #include <frc/TimedRobot.h>
 
+using ctre::phoenix::motorcontrol::ControlMode;
+using ctre::phoenix::motorcontrol::can::TalonFX;
 using ctre::phoenix::motorcontrol::can::TalonSRX;
 using ctre::phoenix::motorcontrol::can::VictorSPX;
-using ctre::phoenix::motorcontrol::can::TalonFX;
-using ctre::phoenix::motorcontrol::ControlMode;
+using frc::SendableChooser;
+using frc::SmartDashboard;
 using frc::StartRobot;
 using frc::TimedRobot;
 using frc::XboxController;
 
-class Robot: public TimedRobot {
+class Robot : public TimedRobot
+{
 
- public:
-  enum motorControllerPort {
+public:
+  enum motorControllerPort
+  {
     frontRightPort = 2,
     backRightPort = 0,
     frontLeftPort = 3,
@@ -33,7 +39,8 @@ class Robot: public TimedRobot {
     turretArm2Port = 7,
     hWheelPort = 4
   };
-  enum gameControllerPort {
+  enum gameControllerPort
+  {
     driver = 0,
     turretCon = 1
   };
@@ -50,8 +57,7 @@ class Robot: public TimedRobot {
   XboxController driverController{gameControllerPort::driver};
   XboxController turretController{gameControllerPort::turretCon};
 
-  chooser = new SendableChooser();
-  frc::SendableChooser<std::string> m_chooser;
+  SendableChooser<std::string> m_chooser;
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
@@ -80,5 +86,4 @@ class Robot: public TimedRobot {
 
   void SimulationInit() override;
   void SimulationPeriodic() override;
-
 };
