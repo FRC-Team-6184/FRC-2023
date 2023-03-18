@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #pragma once
 
 #include <iostream>
@@ -22,6 +18,7 @@ using frc::SmartDashboard;
 using frc::StartRobot;
 using frc::TimedRobot;
 using frc::XboxController;
+using std::string;
 
 class Robot : public TimedRobot
 {
@@ -57,10 +54,10 @@ public:
   XboxController driverController{gameControllerPort::driver};
   XboxController turretController{gameControllerPort::turretCon};
 
-  SendableChooser<std::string> m_chooser;
-  const std::string kAutoNameDefault = "Default";
-  const std::string kAutoNameCustom = "My Auto";
-  std::string m_autoSelected;
+  SendableChooser<string> m_chooser;
+  const string kAutoNameDefault = "Default";
+  const string kAutoNameCustom = "My Auto";
+  string m_autoSelected;
 
   float layer = 0;
   float type = 0;
