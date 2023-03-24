@@ -12,6 +12,7 @@
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/XboxController.h>
 #include <frc/TimedRobot.h>
+#include <frc/DigitalInput.h>
 
 using ctre::phoenix::motorcontrol::ControlMode;
 using ctre::phoenix::motorcontrol::can::TalonFX;
@@ -22,6 +23,7 @@ using frc::SmartDashboard;
 using frc::StartRobot;
 using frc::TimedRobot;
 using frc::XboxController;
+using frc::DigitalInput;
 
 class Robot : public TimedRobot
 {
@@ -33,10 +35,9 @@ public:
     backRightPort = 0,
     frontLeftPort = 3,
     backLeftPort = 1,
-    turretPort = 6,
-    intakePort = 16,
-    turretArm1Port = 18,
-    turretArm2Port = 7,
+    intakePort = 5,
+    horizontalArmPort = 6,
+    verticalArmPort = 7,
     hWheelPort = 4
   };
   enum gameControllerPort
@@ -49,10 +50,9 @@ public:
   TalonSRX backRight{motorControllerPort::backRightPort};
   TalonSRX frontLeft{motorControllerPort::frontLeftPort};
   TalonSRX backLeft{motorControllerPort::backLeftPort};
-  TalonSRX turret{motorControllerPort::turretPort};
   TalonSRX turretIntake{motorControllerPort::intakePort};
-  TalonSRX turretArm1{motorControllerPort::turretArm1Port};
-  TalonSRX turretArm2{motorControllerPort::turretArm2Port};
+  TalonSRX horizontalArm{motorControllerPort::horizontalArmPort};
+  TalonSRX verticalArm{motorControllerPort::verticalArmPort};
   VictorSPX hWheel{motorControllerPort::hWheelPort};
   XboxController driverController{gameControllerPort::driver};
   XboxController turretController{gameControllerPort::turretCon};
@@ -62,12 +62,8 @@ public:
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
 
-  float layer = 0;
-  float type = 0;
-  // float kDriveTick2Feet = 0.000310842175066;
-  // double rightPosition = backRight.GetSelectedSensorPosition() * kDriveTick2Feet;
-  // double leftPosition = backLeft.GetSelectedSensorPosition() * kDriveTick2Feet;
-  // double distance = (rightPosition + leftPosition) / 2;
+  //Limit Switches
+  frc::DigitalInput horizontalLimit{0};
 
   void RobotInit() override;
   void RobotPeriodic() override;
