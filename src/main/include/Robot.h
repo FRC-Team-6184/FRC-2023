@@ -13,6 +13,7 @@
 #include <frc/XboxController.h>
 #include <frc/TimedRobot.h>
 #include <frc/DigitalInput.h>
+#include <ctime>
 
 using ctre::phoenix::motorcontrol::ControlMode;
 using ctre::phoenix::motorcontrol::can::TalonFX;
@@ -24,6 +25,7 @@ using frc::StartRobot;
 using frc::TimedRobot;
 using frc::XboxController;
 using frc::DigitalInput;
+
 
 class Robot : public TimedRobot
 {
@@ -38,7 +40,6 @@ public:
     intakePort = 5,
     horizontalArmPort = 6,
     verticalArmPort = 7,
-    hWheelPort = 4
   };
   enum gameControllerPort
   {
@@ -53,14 +54,15 @@ public:
   TalonSRX turretIntake{motorControllerPort::intakePort};
   TalonSRX horizontalArm{motorControllerPort::horizontalArmPort};
   TalonSRX verticalArm{motorControllerPort::verticalArmPort};
-  VictorSPX hWheel{motorControllerPort::hWheelPort};
   XboxController driverController{gameControllerPort::driver};
   XboxController turretController{gameControllerPort::turretCon};
 
-  SendableChooser<std::string> m_chooser;
+  /*SendableChooser<std::string> m_chooser;
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";
-  std::string m_autoSelected;
+  std::string m_autoSelected;*/
+
+  time_t autonomousStart = NULL;
 
   //Limit Switches
   frc::DigitalInput horizontalLimit{0};
