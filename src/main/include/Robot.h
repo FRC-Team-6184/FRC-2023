@@ -14,6 +14,7 @@
 #include <frc/TimedRobot.h>
 #include <frc/DigitalInput.h>
 #include <ctime>
+#include <frc/Encoder.h>
 
 using ctre::phoenix::motorcontrol::ControlMode;
 using ctre::phoenix::motorcontrol::can::TalonFX;
@@ -25,6 +26,7 @@ using frc::StartRobot;
 using frc::TimedRobot;
 using frc::XboxController;
 using frc::DigitalInput;
+using frc::Encoder;
 
 
 class Robot : public TimedRobot
@@ -39,7 +41,7 @@ public:
     backLeftPort = 1,
     intakePort = 5,
     horizontalArmPort = 6,
-    verticalArmPort = 7,
+    verticalArmPort = 7
   };
   enum gameControllerPort
   {
@@ -64,8 +66,12 @@ public:
 
   time_t autonomousStart = NULL;
 
-  //Limit Switches
-  frc::DigitalInput horizontalLimit{0};
+  // encoder
+
+  // Encoder horizontalEncoder {0, 1};
+  // Encoder wheelEncoder {motorControllerPort::backRightPort};
+  // horizontalEncoder.SetDistancePerPulse(360/2048.0);
+
 
   void RobotInit() override;
   void RobotPeriodic() override;

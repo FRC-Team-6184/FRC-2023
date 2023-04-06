@@ -1,7 +1,7 @@
 #include "Robot.h"
 
 #define TURTLE_SPEED 0.15
-#define REGULAR_SPEED 0.30
+#define REGULAR_SPEED 0.35
 #define TURBO_SPEED 1.0
 
 #include <cscore_oo.h>
@@ -10,39 +10,46 @@
 void Robot::RobotInit()
 {
   frc::CameraServer::StartAutomaticCapture();
-  // m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
-  // m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
-  // SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 void Robot::RobotPeriodic() {}
 
 void Robot::AutonomousInit()
 {
-  // m_autoSelected = m_chooser.GetSelected();
-  // fmt::print("Auto selected: {}\n", m_autoSelected);
+
   autonomousStart = time(0);
 
-  frontRight.SetNeutralMode(Brake);
-  frontLeft.SetNeutralMode(Brake);
-  backRight.SetNeutralMode(Brake);
-  backLeft.SetNeutralMode(Brake);
+  // frontRight.SetNeutralMode(Brake);
+  // frontLeft.SetNeutralMode(Brake);
+  // backRight.SetNeutralMode(Brake);
+  // backLeft.SetNeutralMode(Brake);
 
   frontRight.Set(TalonSRXControlMode::Follower, Robot::motorControllerPort::backRightPort);
   frontLeft.Set(TalonSRXControlMode::Follower, Robot::motorControllerPort::backLeftPort);
+
+  // backLeft.Reset();
 }
 
 void Robot::AutonomousPeriodic()
 {
   if (time(0) - autonomousStart < 5)
   {
-    backRight.Set(TalonSRXControlMode::PercentOutput, -.15);
-    backLeft.Set(TalonSRXControlMode::PercentOutput, .15);
+    backRight.Set(TalonSRXControlMode::PercentOutput, -.20);
+    backLeft.Set(TalonSRXControlMode::PercentOutput, .20);
   }
   else
   {
     backRight.Set(TalonSRXControlMode::PercentOutput, 0);
     backLeft.Set(TalonSRXControlMode::PercentOutput, 0);
   }
+
+  /*if (horizontalEncoder.getDistance() < 90) {
+    horizontalArm.Set(TalonSRXControlMode::PercentOutput, 0.2);
+  } else {
+    horizontalArm.Set(TalonSRXControlMode::PercentOutput, 0);
+  }
+  if (horizontalEncoder.getDistance() >= 90) {
+
+  }*/
 }
 
 void Robot::TeleopInit() {}
@@ -53,6 +60,8 @@ void Robot::TeleopPeriodic()
   float turnDifference;
   float leftWheelModifier = 0;
   float rightWheelModifier = 0;
+  float turretMultiplier = 0.7;
+
   // Driver Controls
 
   frontRight.SetNeutralMode(Brake);
@@ -77,55 +86,43 @@ void Robot::TeleopPeriodic()
     speedMultiplier = REGULAR_SPEED;
   }
 
-  // if (driverController.GetRightY() - driverController.GetLeftY() > ) {}
-  /* turnDifference = driverController.GetLeftY() - driverController.GetRightY();
-  if (turnDifference > 0 && driverController.GetLeftY() - turnDifference * 0.25 > 0)
-  {
-    leftWheelModifier = turnDifference * 0.25;
-  }
-  else if (driverController.GetRightY() - abs(turnDifference) * 0.25 > 0)
-  {
-    rightWheelModifier = abs(turnDifference) * 0.25;
-  } */
-
-  /*if (driverController.GetRightX() > 0 && driverController.GetLeftY() != 0) {
-    backLeft.Set(TalonSRXControlMode::PercentOutput, -(driverController.GetLeftY() - driverController.GetRightX()) * speedMultiplier);
-    backRight.Set(TalonSRXControlMode::PercentOutput, driverController.GetLeftY() * speedMultiplier);
-  } else if (driverController.GetRightX() < 0 && driverController.GetLeftY() != 0) {
-    backRight.Set(TalonSRXControlMode::PercentOutput, (driverController.GetLeftY() + driverController.GetRightX()) * speedMultiplier);
-    backLeft.Set(TalonSRXControlMode::PercentOutput, -driverController.GetLeftY() * speedMultiplier);
-  } else if (driverController.GetLeftY() == 0 && driverController.GetRightX() != 0) {
-    backRight.Set(TalonSRXControlMode::PercentOutput, driverController.GetRightX());
-    backLeft.Set(TalonSRXControlMode::PercentOutput, -driverController.GetRightX());
-  }*/
-
-  backLeft.Set(TalonSRXControlMode::PercentOutput, -(driverController.GetLeftY() - driverController.GetRightX() * 0.6) * speedMultiplier);
-  backRight.Set(TalonSRXControlMode::PercentOutput, (driverController.GetLeftY() + driverController.GetRightX() * 0.6) * speedMultiplier);
-
-  // if (driverController.GetRightX() < 0)
-  /* } else if (driverController.GetLeftY() == 0 && driverController.GetRightX() != 0) {
-
-   } */
-
-  // backLeft.Set(TalonSRXControlMode::PercentOutput, (-driverController.GetLeftY() + leftWheelModifier) * speedMultiplier);
-  // backRight.Set(TalonSRXControlMode::PercentOutput, (driverController.GetRightY() - rightWheelModifier) * speedMultiplier);
+  backLeft.Set(TalonSRXControlMode::PercentOutput, -(driverController.GetLeftY()) * speedMultiplier);
+  backRight.Set(TalonSRXControlMode::PercentOutput, (driverController.GetRightY()) * speedMultiplier);
+  // backLeft.Set(TalonSRXControlMode::PercentOutput, -(driverController.GetLeftY() - driverController.GetRightX() * 0.6) * speedMultiplier);
+  // backRight.Set(TalonSRXControlMode::PercentOutput, (driverController.GetLeftY() + driverController.GetRightX() * 0.6) * speedMultiplier);
 
   // Turret controls
-  turretIntake.Set(TalonSRXControlMode::PercentOutput, turretController.GetLeftTriggerAxis() - turretController.GetRightTriggerAxis());
+  //turbo mode for intake
+  if (turretController.GetLeftBumper() || turretController.GetRightBumper()) {
+    turretMultiplier = 0.9;
+  }
+  turretIntake.Set(TalonSRXControlMode::PercentOutput, (turretController.GetLeftTriggerAxis() - turretController.GetRightTriggerAxis()) * turretMultiplier);
 
-  if (!horizontalLimit.Get())
+  horizontalArm.Set(TalonSRXControlMode::PercentOutput, turretController.GetLeftY() * 0.4);
+
+  verticalArm.Set(TalonSRXControlMode::PercentOutput, -(turretController.GetRightY() * 0.25)); // Lower speed going downwards
+
+  // verticalArm.Set(TalonSRXControlMode::PercentOutput, turretController.GetPOV())
+
+  if (turretController.GetPOV() == 0)
   {
-    horizontalArm.Set(TalonSRXControlMode::PercentOutput, 0);
+  }
+  else if (turretController.GetPOV() == 90)
+  {
+    // horizontalEncoder
+  }
+  else if (turretController.GetPOV() == 180)
+  {
+  }
+  else if (turretController.GetPOV() == 270)
+  {
   }
   else
   {
-    horizontalArm.Set(TalonSRXControlMode::PercentOutput, turretController.GetLeftY() *0.4);
   }
-  verticalArm.Set(TalonSRXControlMode::PercentOutput, turretController.GetRightY() * 0.25);
 }
 
-// Arm Controls
-
+//
 
 void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
