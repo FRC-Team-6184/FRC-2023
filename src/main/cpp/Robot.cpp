@@ -31,16 +31,35 @@ void Robot::AutonomousInit()
 
 void Robot::AutonomousPeriodic()
 {
-  if (time(0) - autonomousStart < 5)
-  {
-    backRight.Set(TalonSRXControlMode::PercentOutput, -.20);
-    backLeft.Set(TalonSRXControlMode::PercentOutput, .20);
-  }
-  else
-  {
+  if (time(0) - autonomousStart < 2) {
+    // Extend the arm at 20% power for two seconds.
+    verticalArm.Set(TalonSRXControlMode::PercentOutput, .4);
+  } else if (time(0) - autonomousStart < 4) {
+    //
+    verticalArm.Set(TalonSRXControlMode::PercentOutput, 0);
+    turretIntake.Set(TalonSRXControlMode::PercentOutput, -.5);
+  } else if (time(0) - autonomousStart < 7) {
+    turretIntake.Set(TalonSRXControlMode::PercentOutput, 0);
+    backRight.Set(TalonSRXControlMode::PercentOutput, .20);
+    backLeft.Set(TalonSRXControlMode::PercentOutput, -.20);
+  } else {
     backRight.Set(TalonSRXControlMode::PercentOutput, 0);
     backLeft.Set(TalonSRXControlMode::PercentOutput, 0);
+    turretIntake.Set(TalonSRXControlMode::PercentOutput, 0);
+    verticalArm.Set(TalonSRXControlMode::PercentOutput, 0);
   }
+
+
+  // if (time(0) - autonomousStart < 5)
+  // {
+  //   backRight.Set(TalonSRXControlMode::PercentOutput, .20);
+  //   backLeft.Set(TalonSRXControlMode::PercentOutput, -.20);
+  // }
+  // else
+  // {
+  //   backRight.Set(TalonSRXControlMode::PercentOutput, 0);
+  //   backLeft.Set(TalonSRXControlMode::PercentOutput, 0);
+  // }
 
   /*if (horizontalEncoder.getDistance() < 90) {
     horizontalArm.Set(TalonSRXControlMode::PercentOutput, 0.2);
