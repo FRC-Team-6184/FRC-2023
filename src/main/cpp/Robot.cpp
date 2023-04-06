@@ -18,11 +18,6 @@ void Robot::AutonomousInit()
 
   autonomousStart = time(0);
 
-  // frontRight.SetNeutralMode(Brake);
-  // frontLeft.SetNeutralMode(Brake);
-  // backRight.SetNeutralMode(Brake);
-  // backLeft.SetNeutralMode(Brake);
-
   frontRight.Set(TalonSRXControlMode::Follower, Robot::motorControllerPort::backRightPort);
   frontLeft.Set(TalonSRXControlMode::Follower, Robot::motorControllerPort::backLeftPort);
 
@@ -31,44 +26,32 @@ void Robot::AutonomousInit()
 
 void Robot::AutonomousPeriodic()
 {
-  if (time(0) - autonomousStart < 2) {
-    // Extend the arm at 20% power for two seconds.
+  if (time(0) - autonomousStart < 2)
+  {
+    // Extend the arm at 40% power for two seconds.
     verticalArm.Set(TalonSRXControlMode::PercentOutput, .4);
-  } else if (time(0) - autonomousStart < 4) {
-    //
+  }
+  else if (time(0) - autonomousStart < 4)
+  {
+    // Stop the arm motor and release the intake.
     verticalArm.Set(TalonSRXControlMode::PercentOutput, 0);
     turretIntake.Set(TalonSRXControlMode::PercentOutput, -.5);
-  } else if (time(0) - autonomousStart < 7) {
+  }
+  else if (time(0) - autonomousStart < 7)
+  {
+    // Stop the intake and move backwards.
     turretIntake.Set(TalonSRXControlMode::PercentOutput, 0);
     backRight.Set(TalonSRXControlMode::PercentOutput, .20);
     backLeft.Set(TalonSRXControlMode::PercentOutput, -.20);
-  } else {
+  }
+  else
+  {
+    // Stop all motors.
     backRight.Set(TalonSRXControlMode::PercentOutput, 0);
     backLeft.Set(TalonSRXControlMode::PercentOutput, 0);
     turretIntake.Set(TalonSRXControlMode::PercentOutput, 0);
     verticalArm.Set(TalonSRXControlMode::PercentOutput, 0);
   }
-
-
-  // if (time(0) - autonomousStart < 5)
-  // {
-  //   backRight.Set(TalonSRXControlMode::PercentOutput, .20);
-  //   backLeft.Set(TalonSRXControlMode::PercentOutput, -.20);
-  // }
-  // else
-  // {
-  //   backRight.Set(TalonSRXControlMode::PercentOutput, 0);
-  //   backLeft.Set(TalonSRXControlMode::PercentOutput, 0);
-  // }
-
-  /*if (horizontalEncoder.getDistance() < 90) {
-    horizontalArm.Set(TalonSRXControlMode::PercentOutput, 0.2);
-  } else {
-    horizontalArm.Set(TalonSRXControlMode::PercentOutput, 0);
-  }
-  if (horizontalEncoder.getDistance() >= 90) {
-
-  }*/
 }
 
 void Robot::TeleopInit() {}
@@ -107,12 +90,9 @@ void Robot::TeleopPeriodic()
 
   backLeft.Set(TalonSRXControlMode::PercentOutput, -(driverController.GetLeftY()) * speedMultiplier);
   backRight.Set(TalonSRXControlMode::PercentOutput, (driverController.GetRightY()) * speedMultiplier);
-  // backLeft.Set(TalonSRXControlMode::PercentOutput, -(driverController.GetLeftY() - driverController.GetRightX() * 0.6) * speedMultiplier);
-  // backRight.Set(TalonSRXControlMode::PercentOutput, (driverController.GetLeftY() + driverController.GetRightX() * 0.6) * speedMultiplier);
 
-  // Turret controls
-  //turbo mode for intake
-  if (turretController.GetLeftBumper() || turretController.GetRightBumper()) {
+  if (turretController.GetLeftBumper() || turretController.GetRightBumper())
+  {
     turretMultiplier = 0.9;
   }
   turretIntake.Set(TalonSRXControlMode::PercentOutput, (turretController.GetLeftTriggerAxis() - turretController.GetRightTriggerAxis()) * turretMultiplier);
@@ -120,8 +100,6 @@ void Robot::TeleopPeriodic()
   horizontalArm.Set(TalonSRXControlMode::PercentOutput, turretController.GetLeftY() * 0.4);
 
   verticalArm.Set(TalonSRXControlMode::PercentOutput, -(turretController.GetRightY() * 0.25)); // Lower speed going downwards
-
-  // verticalArm.Set(TalonSRXControlMode::PercentOutput, turretController.GetPOV())
 
   if (turretController.GetPOV() == 0)
   {
@@ -140,8 +118,6 @@ void Robot::TeleopPeriodic()
   {
   }
 }
-
-//
 
 void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}

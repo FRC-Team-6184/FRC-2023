@@ -20,14 +20,13 @@ using ctre::phoenix::motorcontrol::ControlMode;
 using ctre::phoenix::motorcontrol::can::TalonFX;
 using ctre::phoenix::motorcontrol::can::TalonSRX;
 using ctre::phoenix::motorcontrol::can::VictorSPX;
+using frc::DigitalInput;
+using frc::Encoder;
 using frc::SendableChooser;
 using frc::SmartDashboard;
 using frc::StartRobot;
 using frc::TimedRobot;
 using frc::XboxController;
-using frc::DigitalInput;
-using frc::Encoder;
-
 
 class Robot : public TimedRobot
 {
@@ -59,19 +58,7 @@ public:
   XboxController driverController{gameControllerPort::driver};
   XboxController turretController{gameControllerPort::turretCon};
 
-  /*SendableChooser<std::string> m_chooser;
-  const std::string kAutoNameDefault = "Default";
-  const std::string kAutoNameCustom = "My Auto";
-  std::string m_autoSelected;*/
-
   time_t autonomousStart = NULL;
-
-  // encoder
-
-  // Encoder horizontalEncoder {0, 1};
-  // Encoder wheelEncoder {motorControllerPort::backRightPort};
-  // horizontalEncoder.SetDistancePerPulse(360/2048.0);
-
 
   void RobotInit() override;
   void RobotPeriodic() override;
