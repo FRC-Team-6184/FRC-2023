@@ -41,8 +41,8 @@ void Robot::AutonomousPeriodic()
   {
     // Stop the intake and move backwards.
     turretIntake.Set(TalonSRXControlMode::PercentOutput, 0);
-    backRight.Set(TalonSRXControlMode::PercentOutput, .20);
-    backLeft.Set(TalonSRXControlMode::PercentOutput, -.20);
+    backRight.Set(TalonSRXControlMode::PercentOutput, .3);
+    backLeft.Set(TalonSRXControlMode::PercentOutput, -.3);
   }
   else
   {
