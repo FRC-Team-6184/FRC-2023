@@ -37,7 +37,7 @@ void Robot::AutonomousPeriodic()
     verticalArm.Set(TalonSRXControlMode::PercentOutput, 0);
     turretIntake.Set(TalonSRXControlMode::PercentOutput, -.5);
   }
-  else if (time(0) - autonomousStart < 7)
+  else if (time(0) - autonomousStart < 6.5)
   {
     // Stop the intake and move backwards.
     turretIntake.Set(TalonSRXControlMode::PercentOutput, 0);
